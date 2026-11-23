@@ -64,3 +64,43 @@ class WellbeingProfile(UUIDModel):
 
     def __str__(self):
         return f"Wellbeing profile: {self.user.email}"
+
+
+class KnowledgeQuestion(UUIDModel):
+
+    question = models.TextField()
+    options = models.JSONField(default=list)
+    correct_answer = models.PositiveSmallIntegerField()
+    explanation = models.TextField(blank=True)
+    topic = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.question[:80]
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        if not isinstance(self.options, list) or len(self.options) < 2:
+            raise ValidationError(
+                {"options": "At least two answer options are required."}
+            )
+
+        if self.correct_answer >= len(self.options):
+            raise ValidationError(
+                {"correct_answer": "Correct answer index is invalid."}
+            )
+
+
+class KnowledgeAttempt(UUIDModel):
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="knowledge_attempts")
+    score = models.PositiveSmallIntegerField(default=0)
+    total_questions = models.PositiveSmallIntegerField(default=0)
+    percentage = models.PositiveSmallIntegerField(default=0)
+    answers = models.JSONField(default=list)
+    recommendations = models.JSONField(default=list)
+    completed_at = models.DateTimeField(null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.percentage}%"
