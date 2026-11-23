@@ -45,6 +45,13 @@ INSTALLED_APPS = [
     'corsheaders',
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
+    'drf_spectacular',
+    "onboarding",
+    "consent",
+    "assessments",
+    "practices",
+    "sessions_log",
+    "audit",
 ]
 
 MIDDLEWARE = [
@@ -94,8 +101,18 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
+
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": config("JWT_SECRET_KEY"),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Breath Connection API",
+    "DESCRIPTION": "Breath Connection MVP API",
+    "VERSION": "1.0.0",
 }
 
 # Database
