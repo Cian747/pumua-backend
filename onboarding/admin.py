@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import WellbeingProfile, KnowledgeQuestion, KnowledgeAttempt
 
-# Register your models here.
+admin.site.register(WellbeingProfile)
+admin.site.register(KnowledgeQuestion)
+admin.site.register(KnowledgeAttempt)
