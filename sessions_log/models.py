@@ -1,6 +1,4 @@
-
 import uuid
-
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
@@ -11,36 +9,12 @@ from practices.models import Technique
 
 class SessionLog(UUIDModel):
 
-    session_reference = models.UUIDField(
-        default=uuid.uuid4,
-        unique=True,
-        editable=False
-    )
-
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name="sessions"
-    )
-
-    technique = models.ForeignKey(
-        Technique,
-        on_delete=models.PROTECT,
-        related_name="completed_sessions"
-    )
-
+    session_reference = models.UUIDField(default=uuid.uuid4,unique=True,editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,related_name="sessions")
+    technique = models.ForeignKey(Technique,on_delete=models.PROTECT,related_name="completed_sessions")
     started_at = models.DateTimeField()
-
-    completed_at = models.DateTimeField(
-        null=True,
-        blank=True
-    )
-
-    duration_seconds = models.PositiveIntegerField(
-        default=0,
-        validators=[MinValueValidator(0)]
-    )
-
+    completed_at = models.DateTimeField(null=True,blank=True)
+    duration_seconds = models.PositiveIntegerField(default=0,validators=[MinValueValidator(0)])
     completed = models.BooleanField(default=False)
 
     class Meta:
