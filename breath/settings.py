@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "practices",
     "sessions_log",
     "audit",
+    'library',
 ]
 
 MIDDLEWARE = [
