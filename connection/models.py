@@ -12,12 +12,12 @@ class User(AbstractUser):
         ADMIN = "admin", "Admin"
 
     id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
-    username = None
+    username = models.CharField(max_length=150,unique=True,null=True,blank=True)    
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20,choices=Roles.choices,default=Roles.PARTICIPANT)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     objects = UserManager()
 
